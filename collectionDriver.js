@@ -37,4 +37,17 @@ CollectionDriver.prototype.get = function(collectionName, id, callback) { //A
     });
 };
 
+//save new object
+CollectionDriver.prototype.save = function(collectionName, obj, callback) {
+    this.getCollection(collectionName, function(error, the_collection) { //A
+      if( error ) callback(error)
+      else {
+        obj.created_at = new Date(); //B
+        the_collection.insert(obj, function() { //C
+          callback(null, obj);
+        });
+      }
+    });
+};
+
 exports.CollectionDriver = CollectionDriver;
